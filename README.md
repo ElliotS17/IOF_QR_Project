@@ -9,6 +9,8 @@ a measurable directional price reaction.
 The goal was to take a discretionary trading observation and convert it
 into a falsifiable quantitative research problem.
 
+*Note: I am not claiming this strategy actually tracks "institutional" order flow this is simply what the strategy is known as by the discretionary community.*
+
 ## Research Question
 
 Does the first retest of an objectively defined IOF supply/demand zone
