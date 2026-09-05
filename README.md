@@ -70,5 +70,5 @@ research methodology, and perform true out-of-sample validation.
 `notebooks/iof_first_retest_study.ipynb`
 contains the complete research workflow.
 
-`src/iof.py`
+`iof.py`
 contains the IOF detection logic.
