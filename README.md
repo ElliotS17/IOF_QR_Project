@@ -1,67 +1,72 @@
-# IOF Zone Research
+# Institutional Order Flow First-Retest Study
 
-## Research question
+## Overview
 
-Does the first retest of an objectively defined Institutional Order Flow (IOF)
-supply/demand zone produce a directional price reaction?
+This project investigates whether the first retest of an objectively
+defined Institutional Order Flow (IOF) supply or demand zone produces
+a measurable directional price reaction.
 
-This repository is intentionally a **research prototype**, not a production
-trading system.
+The goal was to take a discretionary trading observation and convert it
+into a falsifiable quantitative research problem.
 
-## MVP scope
+## Research Question
 
-- Instrument: SPY
+Does the first retest of an objectively defined IOF supply/demand zone
+produce a statistically significant directional price reaction?
+
+### Hypothesis
+
+- Demand-zone retests should exhibit positive forward directional returns.
+- Supply-zone retests should exhibit negative forward directional returns.
+
+## Methodology
+
+1. Formalize an objective definition of an IOF formation.
+2. Detect qualifying formations programmatically.
+3. Identify the first future retest of each zone.
+4. Measure directional returns over 1, 3, 5, and 10-hour horizons.
+5. Compare observed reactions against random and volatility/time-matched controls.
+6. Run a Monte Carlo matched placebo test.
+
+## Data
+
+- Instrument: E-mini S&P 500 futures (ES)
 - Timeframe: 1 hour
-- Consolidation length: 1–3 candles
-- Initial impulse body/range >= 0.50
-- Every consolidation candle body/range <= 0.50
-- Combined consolidation range <= initial impulse range
-- Second impulse body/range >= 0.50
-- Second impulse body >= 2x zone width
-- Bullish second impulse => demand zone
-- Bearish second impulse => supply zone
-- Only the first retest is considered in the initial experiment
+- Sample: approximately 60 days
+- Detected IOF formations: 26
+- First retests: 21
+- Matched-control observations: 20
 
-## Zone definition
+## Preliminary Results
 
-For 1–3 consolidation candles:
+IOF first retests exhibited positive average directional reactions across
+the tested forward horizons.
 
-- Demand zone:
-  - lower boundary = lowest consolidation low
-  - upper boundary = highest open/close value among consolidation candles
+Matched placebo tests also suggested that the observed reactions were
+unusual relative to historically matched non-IOF observations.
 
-- Supply zone:
-  - lower boundary = lowest open/close value among consolidation candles
-  - upper boundary = highest consolidation high
+These results are exploratory and should not be interpreted as evidence
+of a production-ready trading strategy.
 
-This encodes the discretionary definition supplied before looking at results.
-It can later be compared against a "last consolidation candle only" definition
-as a separate robustness test.
+## Key Limitations
 
-## Important methodological rule
+- Small sample
+- Limited historical data
+- Exploratory rather than preregistered analysis
+- Multiple forward horizons tested
+- Simplified control methodology
+- No transaction costs, slippage, or execution modeling
+- Results have not yet been validated out-of-sample
 
-Do **not** tune the 50%, 2x, or 1–3 candle thresholds after seeing the first
-results and then report the tuned result as if it were the original hypothesis.
-Any parameter changes should be labeled exploratory and later validated
-out-of-sample.
+## Next Steps
 
-## Run
+The next stage would be to expand the historical dataset, freeze the
+research methodology, and perform true out-of-sample validation.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-jupyter notebook
-```
+## Repository Structure
 
-Open `notebooks/01_iof_detection.ipynb`.
+`notebooks/iof_first_retest_study.ipynb`
+contains the complete research workflow.
 
-## Next milestone
-
-After validating that the detector correctly identifies visual examples:
-
-1. Find the first retest of each zone.
-2. Measure 1-, 3-, 5-, and 10-bar forward directional returns.
-3. Measure maximum favorable/adverse excursion.
-4. Construct a baseline/control.
-5. Compare continuation vs reversal IOF formations.
+`src/iof.py`
+contains the IOF detection logic.
